@@ -46,9 +46,7 @@ const N_RECURSIONS = N_RECURSIONS_PLACEHOLDER;
 const WHIR_PROOF_SIZE = WHIR_PROOF_SIZE_PLACEHOLDER; // vectorized
 
 fn main() {
-    for i in 0..N_RECURSIONS unroll {
-        whir_recursion((public_input_start / 8) + i * WHIR_PROOF_SIZE);
-    }
+    whir_recursion((public_input_start / 8));
     return;
 }
 
@@ -71,27 +69,7 @@ fn whir_recursion(transcript_start) {
     domain_size_0 = N_VARS + LOG_INV_RATE;
     fs_state_5, folding_randomness_1, ood_point_1, root_1, circle_values_1, combination_randomness_powers_1, claimed_sum_1 = 
         whir_round(fs_state_4, root_0, FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0, 1, NUM_QUERIES_0, domain_size_0, claimed_sum_0, GRINDING_BITS_0);
-
-    domain_size_1 = domain_size_0 - RS_REDUCTION_FACTOR_0;
-    fs_state_6, folding_randomness_2, ood_point_2, root_2, circle_values_2, combination_randomness_powers_2, claimed_sum_2 = 
-        whir_round(fs_state_5, root_1, FOLDING_FACTOR_1, 2**FOLDING_FACTOR_1, 0, NUM_QUERIES_1, domain_size_1, claimed_sum_1, GRINDING_BITS_1);
-
-    domain_size_2 = domain_size_1 - RS_REDUCTION_FACTOR_1;
-    fs_state_7, folding_randomness_3, ood_point_3, root_3, circle_values_3, combination_randomness_powers_3, claimed_sum_3 = 
-        whir_round(fs_state_6, root_2, FOLDING_FACTOR_2, 2**FOLDING_FACTOR_2, 0, NUM_QUERIES_2, domain_size_2, claimed_sum_2, GRINDING_BITS_2);
-
-    domain_size_3 = domain_size_2 - RS_REDUCTION_FACTOR_2;
-    fs_state_8, folding_randomness_4, final_claimed_sum = sumcheck(fs_state_7, FOLDING_FACTOR_3, claimed_sum_3);
-    
-    fs_state_9, final_coeffcients_unpacked = fs_receive(fs_state_8, 2**FINAL_VARS);
-    final_coeffcients = malloc(2**FINAL_VARS * DIM);
-    for i in 0..2**FINAL_VARS {
-        assert_eq_extension((final_coeffcients_unpacked + i) * 8, final_coeffcients + i*DIM);
-    }
-
-    fs_state_10, final_circle_values, final_folds =
-        sample_stir_indexes_and_fold(fs_state_9, NUM_QUERIES_3, 0, FOLDING_FACTOR_3, 2**FOLDING_FACTOR_3, domain_size_3, root_3, folding_randomness_4, GRINDING_BITS_3);
-       return;
+    return;
 }
 
 fn eq_mle_extension(a, b, n) -> 1 {
@@ -664,6 +642,7 @@ fn checked_decompose_bits(a, k) -> 2 {
     bits = decompose_bits(a); // hint
 
     for i in 0..F_BITS unroll {
+        // assert bits[i] * (1 - bits[i]) == 1;
         assert bits[i] * (1 - bits[i]) == 0;
     }
     sums = malloc(F_BITS);
