@@ -12,14 +12,8 @@ fn whir_recursion(transcript_start) {
     return;
 }
 
-fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor) {
-    poly_eq_extension(folding_factor, two_pow_folding_factor);
-
-    return;
-}
-
 fn whir_round(folding_factor, two_pow_folding_factor) {
-    sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor);
+    poly_eq_extension(folding_factor, two_pow_folding_factor);
 
     return;
 }
