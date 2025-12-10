@@ -64,8 +64,6 @@ fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor) {
 }
 
 fn whir_round(fs_state, folding_factor, two_pow_folding_factor, claimed_sum) {
-    folding_randomness = sumcheck(fs_state, folding_factor, claimed_sum);
-
     sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor);
 
     return;
