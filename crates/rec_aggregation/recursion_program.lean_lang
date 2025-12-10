@@ -72,57 +72,6 @@ fn whir_recursion(transcript_start) {
     return;
 }
 
-fn expand_from_univariate_dynamic(alpha, n) -> 1 {
-    var res;
-    match n {
-        0 => {  } // unreachable
-        1 => { res = expand_from_univariate_const(alpha, 1); }
-        2 => { res = expand_from_univariate_const(alpha, 2); }
-        3 => { res = expand_from_univariate_const(alpha, 3); }
-        4 => { res = expand_from_univariate_const(alpha, 4); }
-        5 => { res = expand_from_univariate_const(alpha, 5); }
-        6 => { res = expand_from_univariate_const(alpha, 6); }
-        7 => { res = expand_from_univariate_const(alpha, 7); }
-        8 => { res = expand_from_univariate_const(alpha, 8); }
-        9 => { res = expand_from_univariate_const(alpha, 9); }
-        10 => { res = expand_from_univariate_const(alpha, 10); }
-        11 => { res = expand_from_univariate_const(alpha, 11); }
-        12 => { res = expand_from_univariate_const(alpha, 12); }
-        13 => { res = expand_from_univariate_const(alpha, 13); }
-        14 => { res = expand_from_univariate_const(alpha, 14); }
-        15 => { res = expand_from_univariate_const(alpha, 15); }
-        16 => { res = expand_from_univariate_const(alpha, 16); }
-        17 => { res = expand_from_univariate_const(alpha, 17); }
-        18 => { res = expand_from_univariate_const(alpha, 18); }
-        19 => { res = expand_from_univariate_const(alpha, 19); }
-        20 => { res = expand_from_univariate_const(alpha, 20); }
-        21 => { res = expand_from_univariate_const(alpha, 21); }
-        22 => { res = expand_from_univariate_const(alpha, 22); }
-    }
-    return res;
-}
-
-fn expand_from_univariate_const(alpha, const n) -> 1 {
-    // "expand_from_univariate"
-    // alpha: F
-
-    res = malloc(n);
-    res[0] = alpha;
-    for i in 0..n-1 unroll {
-        res[i+1] = res[i] * res[i];
-    }
-    return res;
-}
-
-fn expand_from_univariate(alpha, n) -> 1 {
-    res = malloc(n*DIM);
-    assert_eq_extension(alpha, res);
-    for i in 0..n-1 {
-        mul_extension(res + i*DIM, res + i*DIM, res + (i + 1)*DIM);
-    }
-    return res;
-}
-
 fn sumcheck(fs_state, n_steps, claimed_sum) -> 3 {
 
     fs_states_a = malloc(n_steps + 1);
