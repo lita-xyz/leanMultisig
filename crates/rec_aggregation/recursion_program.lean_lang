@@ -145,13 +145,6 @@ fn poly_eq_extension(point, n, two_pow_n) -> 1 {
 
         inner_res = poly_eq_extension(point + DIM, n - 1, two_pow_n / 2);
 
-        two_pow_n_minus_1 = two_pow_n / 2;
-
-        for i in 0..two_pow_n_minus_1 {
-            mul_extension(point, inner_res + i*DIM, res + (two_pow_n_minus_1 + i) * DIM);
-            sub_extension(inner_res + i*DIM, res + (two_pow_n_minus_1 + i) * DIM, res + i*DIM);
-        }
-        
         return res;
     }
 }
