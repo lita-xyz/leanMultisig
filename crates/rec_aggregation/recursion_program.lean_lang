@@ -250,14 +250,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
             dot_product_ee_dynamic(answers[i] * 8, poly_eq, folds + i*DIM, two_pow_folding_factor);
         }
     }
-
-    circle_values = malloc(num_queries); // ROOT^each_stir_index
-    for i in 0..num_queries {
-        stir_index_bits = stir_challenges_indexes[i];
-        circle_value = unit_root_pow_dynamic(folded_domain_size, stir_index_bits);
-        circle_values[i] = circle_value;
-    }
-
     return;
 }
 
