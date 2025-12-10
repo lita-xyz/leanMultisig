@@ -105,69 +105,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
     return;
 }
 
-fn batch_hash_slice_dynamic(num_queries, all_data_to_hash, all_resulting_hashes, len) {
-    if len == DIM * 2 {
-        batch_hash_slice_const(num_queries, all_data_to_hash, all_resulting_hashes, DIM);
-        return;
-    }
-    if len == 16 {
-        batch_hash_slice_const(num_queries, all_data_to_hash, all_resulting_hashes, 8);
-        return;
-    }
-    TODO_batch_hash_slice_dynamic = len;
-    print(77777123);
-    print(len);
-    panic();
-}
-
-fn batch_hash_slice_const(num_queries, all_data_to_hash, all_resulting_hashes, const half_len) {
-    for i in 0..num_queries {
-        data = all_data_to_hash[i];
-        res = malloc_vec(1);
-        slice_hash(pointer_to_zero_vector, data, res, half_len);
-        all_resulting_hashes[i] = res;
-    }
-    return;    
-}
-
-fn merkle_verif_batch_dynamic(n_paths, leaves_digests, leave_positions, root, height) {
-    if height == MERKLE_HEIGHT_0 {
-        merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, MERKLE_HEIGHT_0);
-        return;
-    }
-    if height == MERKLE_HEIGHT_1 {
-        merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, MERKLE_HEIGHT_1);
-        return;
-    }
-    if height == MERKLE_HEIGHT_2 {
-        merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, MERKLE_HEIGHT_2);
-        return;
-    }
-    if height == MERKLE_HEIGHT_3 {
-        merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, MERKLE_HEIGHT_3);
-        return;
-    }
-
-    print(12345555);
-    print(height);
-    panic();
-}
-
-fn merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, const height) {
-    // n_paths: F
-    // leaves_digests: pointer to a slice of n_paths vectorized pointers, each pointing to 1 chunk of 8 field elements
-    // leave_positions: pointer to a slice of n_paths field elements (each < 2^height)
-    // root: vectorized pointer to 1 chunk of 8 field elements
-    // height: F
-
-    for i in 0..n_paths {
-        merkle_verify(leaves_digests[i], leave_positions[i], root, height);
-    }
-
-    return;
-}
-
-
 fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkle_leaves_in_basefield, num_queries, domain_size, claimed_sum, grinding_bits) {
     fs_state_7, folding_randomness, new_claimed_sum_a = sumcheck(fs_state, folding_factor, claimed_sum);
 
