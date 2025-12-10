@@ -10,6 +10,7 @@ fn f(two_pow_n) {
         return;
     } else {
         res = malloc(two_pow_n * 2); // deleting this or any part of it makes the test pass
+          // changing the name res to something else makes the test pass
 
         return;
     }
