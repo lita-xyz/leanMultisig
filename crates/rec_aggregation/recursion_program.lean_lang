@@ -180,49 +180,6 @@ fn unit_root_pow_const(const domain_size, index_bits) -> 1 {
     return prods[domain_size - 1];
 }
 
-fn dot_product_ee_dynamic(a, b, res, n) { 
-    if n == 16 {
-        dot_product_ee(a, b, res, 16);
-        return;
-    }
-    if n == NUM_QUERIES_0 {
-        dot_product_ee(a, b, res, NUM_QUERIES_0);
-        return;
-    }
-    if n == NUM_QUERIES_1 {
-        dot_product_ee(a, b, res, NUM_QUERIES_1);
-        return;
-    }
-    if n == NUM_QUERIES_2 {
-        dot_product_ee(a, b, res, NUM_QUERIES_2);
-        return;
-    }
-    if n == NUM_QUERIES_3 {
-        dot_product_ee(a, b, res, NUM_QUERIES_3);
-        return;
-    }
-    if n == NUM_QUERIES_0 + 1 {
-        dot_product_ee(a, b, res, NUM_QUERIES_0 + 1);
-        return;
-    }
-    if n == NUM_QUERIES_1 + 1 {
-        dot_product_ee(a, b, res, NUM_QUERIES_1 + 1);
-        return;
-    }
-    if n == NUM_QUERIES_2 + 1 {
-        dot_product_ee(a, b, res, NUM_QUERIES_2 + 1);
-        return;
-    }
-    if n == NUM_QUERIES_3 + 1 {
-        dot_product_ee(a, b, res, NUM_QUERIES_3 + 1);
-        return;
-    }
-
-    TODO_dot_product_ee_dynamic = 0;
-    print(TODO_dot_product_ee_dynamic, n);
-    panic();
-}
-
 fn poly_eq_extension(point, n, two_pow_n) -> 1 {
     // Example: for n = 2: eq(x, y) = [(1 - x)(1 - y), (1 - x)y, x(1 - y), xy]
 
