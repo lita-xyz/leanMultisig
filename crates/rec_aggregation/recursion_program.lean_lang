@@ -14,21 +14,6 @@ fn main() {
 }
 
 fn whir_recursion(transcript_start) {
-    fs_state = fs_new(transcript_start);
-
-    fs_state_0, root_0, ood_point_0, ood_eval_0 = parse_commitment(fs_state);
-
-    // In the future point / eval will come from the PIOP
-    point_vector_len = next_multiple_of_8(N_VARS * DIM);
-    fs_state_1, pcs_point_vec = fs_hint(fs_state_0, point_vector_len / 8);
-    pcs_point = pcs_point_vec * 8;
-    fs_state_3, pcs_eval_vec = fs_hint(fs_state_1, 1);
-    pcs_eval = pcs_eval_vec * 8;
-
-    fs_state_4, combination_randomness_gen_0 = fs_sample_ef(fs_state_3);
-
-    claimed_sum_side = mul_extension_ret(combination_randomness_gen_0, pcs_eval);
-    claimed_sum_0 = add_extension_ret(ood_eval_0, claimed_sum_side);
     whir_round(FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0);
     return;
 }
