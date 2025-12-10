@@ -93,9 +93,6 @@ fn sumcheck(fs_state, n_steps, claimed_sum) -> 1 {
         assert_eq_extension(rand, folding_randomness + sc_round * DIM);
     }
 
-    new_state = fs_states_a[n_steps];
-    new_claimed_sum = claimed_sums[n_steps];
-
     return folding_randomness;
 }
 
