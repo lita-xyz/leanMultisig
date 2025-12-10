@@ -224,13 +224,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
         n_chunks_per_answer = two_pow_folding_factor * DIM / 8;
     }
 
-    for i in 0..num_queries {
-        new_fs_state, answer = fs_hint(fs_states_b[i], n_chunks_per_answer); 
-        fs_states_b[i + 1] = new_fs_state;
-        answers[i] = answer;
-    }
-    fs_state_10 = fs_states_b[num_queries];
-
     poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
 
     return;
