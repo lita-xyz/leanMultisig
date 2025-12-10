@@ -550,30 +550,6 @@ fn set_to_one(a) inline {
     return;
 }
 
-fn print_vec(a) {
-    print_many_vec(a, 1);
-    return;
-}
-
-fn print_ef(a) {
-    for i in 0..DIM unroll {
-        print(a[i]);
-    }
-    return;
-}
-
-fn print_many_vec(a, n) {
-    print_many(a * 8, n * 8);
-    return;
-}
-
-fn print_many(a, n) {
-    for i in 0..n {
-        print(a[i]);
-    }
-    return;
-}
-
 fn next_multiple_of_8(const a) -> 1 {
     return a + (8 - (a % 8)) % 8;
 }
