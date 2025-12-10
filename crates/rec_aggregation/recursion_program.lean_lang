@@ -102,18 +102,6 @@ fn degree_two_polynomial_sum_at_0_and_1(coeffs) -> 1 {
 // 2 -> vectorized pointer to second half of sponge state
 // 3 -> output_buffer_size
 
-fn fs_new(transcript) -> 1 {
-    // transcript is a (vectorized) pointer
-    // TODO domain separator
-    fs_state = malloc(4);
-    fs_state[0] = transcript;
-    fs_state[1] = pointer_to_zero_vector; // first half of sponge state
-    fs_state[2] = pointer_to_zero_vector; // second half of sponge state
-    fs_state[3] = 0; // output buffer size
-
-    return fs_state;
-}
-
 fn less_than_8(a) inline -> 1 {
     // TODO range check
     if a * (a - 1) * (a - 2) * (a - 3) * (a - 4) * (a - 5) * (a - 6) * (a - 7) == 0 {
