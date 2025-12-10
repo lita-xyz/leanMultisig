@@ -1,9 +1,5 @@
-const DIM = 2;
-
-const N = 0;
-
 fn main() {
-    rec(N, 2**N);
+    rec(0, 1);
     return;
 }
 
