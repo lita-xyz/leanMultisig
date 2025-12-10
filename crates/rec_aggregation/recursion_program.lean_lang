@@ -1,6 +1,6 @@
 const DIM = 5;
 
-const N = 2;
+const N = 1;
 
 fn main() {
     rec(N, 2**N);
