@@ -18,30 +18,6 @@ fn whir_recursion(transcript_start) {
     return;
 }
 
-fn sumcheck(fs_state, n_steps, claimed_sum) -> 1 {
-
-    fs_states_a = malloc(n_steps + 1);
-    fs_states_a[0] = fs_state;
-
-    claimed_sums = malloc(n_steps + 1);
-    claimed_sums[0] = claimed_sum;
-
-    folding_randomness = malloc(n_steps * DIM);
-
-    for sc_round in 0..n_steps {
-        fs_state_5, poly = fs_receive_ef(fs_states_a[sc_round], 3);
-        sum_over_boolean_hypercube = degree_two_polynomial_sum_at_0_and_1(poly);
-        assert_eq_extension(sum_over_boolean_hypercube, claimed_sums[sc_round]);
-        fs_state_6, rand = fs_sample_ef(fs_state_5);
-        fs_states_a[sc_round + 1] = fs_state_6;
-        new_claimed_sum = degree_two_polynomial_eval(poly, rand);
-        claimed_sums[sc_round + 1] = new_claimed_sum;
-        assert_eq_extension(rand, folding_randomness + sc_round * DIM);
-    }
-
-    return folding_randomness;
-}
-
 fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor) {
     poly_eq_extension(folding_factor, two_pow_folding_factor);
 
