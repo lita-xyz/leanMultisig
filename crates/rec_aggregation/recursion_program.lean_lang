@@ -286,21 +286,6 @@ fn pow(a, b) -> 1 {
     }
 }
 
-fn sample_bits_const(fs_state, const n_samples, K) -> 2 {
-    // return the updated fs_state, and a pointer to n pointers, each pointing to 31 (boolean) field elements,
-    //  ... followed by the n corresponding sampled field elements (where we only look at the first K bits)
-    samples = malloc(n_samples);
-    new_fs_state = fs_sample_helper(fs_state, n_samples, samples);
-    sampled_bits = malloc(n_samples * 2);
-    for i in 0..n_samples unroll {
-        bits, partial_sum = checked_decompose_bits(samples[i], K);
-        sampled_bits[i] = bits;
-        sampled_bits[n_samples + i] = partial_sum;
-    }
-
-    return new_fs_state, sampled_bits;
-}
-
 fn checked_decompose_bits(a, k) -> 2 {
     // return a pointer to the 31 bits of a
     // .. and the partial value, reading the first K bits
