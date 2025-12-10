@@ -108,8 +108,6 @@ fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_
 fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkle_leaves_in_basefield, num_queries, domain_size, claimed_sum, grinding_bits) {
     fs_state_7, folding_randomness, new_claimed_sum_a = sumcheck(fs_state, folding_factor, claimed_sum);
 
-    fs_state_8, root, ood_point, ood_eval = parse_commitment(fs_state_7);
-
     sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness);
 
     return;
