@@ -108,19 +108,6 @@ fn whir_round(fs_state, folding_factor, two_pow_folding_factor, claimed_sum) {
     return;
 }
 
-fn copy_chunk(src, dst) {
-    // src: pointer to 8 F
-    // dst: pointer to 8 F
-    for i in 0..8 unroll { dst[i] = src[i]; }
-    return;
-}
-
-fn copy_chunk_vec(src, dst) {
-    zero = 0; // TODO
-    add_extension(src, zero, dst);
-    return;
-}
-
 fn powers(alpha, n) -> 1 {
     // alpha: EF
     // n: F
