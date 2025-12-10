@@ -72,7 +72,7 @@ fn whir_recursion(transcript_start) {
     return;
 }
 
-fn sumcheck(fs_state, n_steps, claimed_sum) -> 3 {
+fn sumcheck(fs_state, n_steps, claimed_sum) -> 1 {
 
     fs_states_a = malloc(n_steps + 1);
     fs_states_a[0] = fs_state;
@@ -96,7 +96,7 @@ fn sumcheck(fs_state, n_steps, claimed_sum) -> 3 {
     new_state = fs_states_a[n_steps];
     new_claimed_sum = claimed_sums[n_steps];
 
-    return new_state, folding_randomness, new_claimed_sum;
+    return folding_randomness;
 }
 
 fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness) {
@@ -106,7 +106,7 @@ fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_
 }
 
 fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkle_leaves_in_basefield, num_queries, domain_size, claimed_sum, grinding_bits) {
-    fs_state_7, folding_randomness, new_claimed_sum_a = sumcheck(fs_state, folding_factor, claimed_sum);
+    folding_randomness = sumcheck(fs_state, folding_factor, claimed_sum);
 
     sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness);
 
