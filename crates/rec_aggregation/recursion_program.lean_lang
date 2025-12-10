@@ -314,18 +314,6 @@ fn fs_observe(fs_state, n) -> 1 {
     }
 }
 
-fn fs_print_state(fs_state) {
-    left = fs_state[1] * 8;
-    for i in 0..8 {
-        print(left[i]);
-    }
-    right = fs_state[2] * 8;
-    for i in 0..8 {
-        print(right[i]);
-    }
-    return;
-}
-
 fn mul_extension_ret(a, b) inline -> 1 {
     c = malloc(DIM);
     dot_product_ee(a, b, c, 1);
