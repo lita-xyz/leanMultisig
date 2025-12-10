@@ -324,7 +324,7 @@ fn merkle_verif_batch_const(n_paths, leaves_digests, leave_positions, root, cons
 }
 
 
-fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkle_leaves_in_basefield, num_queries, domain_size, claimed_sum, grinding_bits) -> 7 {
+fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkle_leaves_in_basefield, num_queries, domain_size, claimed_sum, grinding_bits) {
     fs_state_7, folding_randomness, new_claimed_sum_a = sumcheck(fs_state, folding_factor, claimed_sum);
 
     fs_state_8, root, ood_point, ood_eval = parse_commitment(fs_state_7);
@@ -332,17 +332,7 @@ fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkl
     fs_state_11, circle_values, folds = 
         sample_stir_indexes_and_fold(fs_state_8, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits);
 
-    fs_state_12, combination_randomness_gen = fs_sample_ef(fs_state_11);
-
-    combination_randomness_powers = powers(combination_randomness_gen, num_queries + 1); // "+ 1" because of one OOD sample
-
-    claimed_sum_supplement_side = malloc(5);
-    dot_product_ee_dynamic(folds, combination_randomness_powers + DIM, claimed_sum_supplement_side, num_queries);
-
-    claimed_sum_supplement = add_extension_ret(claimed_sum_supplement_side, ood_eval);
-    new_claimed_sum_b = add_extension_ret(claimed_sum_supplement, new_claimed_sum_a);
-
-    return fs_state_12, folding_randomness, ood_point, root, circle_values, combination_randomness_powers, new_claimed_sum_b;
+    return;
 }
 
 fn copy_chunk(src, dst) {
