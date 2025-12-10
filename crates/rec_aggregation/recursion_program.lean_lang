@@ -67,45 +67,8 @@ fn pow(a, b) -> 1 {
         return a * p;
     }
 }
-
-fn mul_extension_ret(a, b) inline -> 1 {
-    c = malloc(DIM);
-    dot_product_ee(a, b, c, 1);
-    return c;
-}
-
 fn mul_extension(a, b, c) inline {
     dot_product_ee(a, b, c, 1);
-    return;
-}
-
-fn add_extension_ret(a, b) inline -> 1 {
-    // TODO if a and b are adjacent we can do it in one cycle using the dot_product precompile
-    c = malloc(DIM);
-    for i in 0..DIM unroll {
-        c[i] = a[i] + b[i];
-    }
-    return c;
-}
-
-fn add_extension(a, b, c) inline {
-    // TODO if a and b are adjacent we can do it in one cycle using the dot_product precompile
-    for i in 0..DIM unroll {
-        c[i] = a[i] + b[i];
-    }
-    return;
-}
-
-fn sub_extension(a, b, c) inline {
-    // TODO if a and b are adjacent we can do it in one cycle using the dot_product precompile
-    for i in 0..DIM unroll {
-        c[i] = a[i] - b[i];
-    }
-    return;
-}
-
-fn assert_eq_extension(a, b) inline {
-    dot_product_ee(a, pointer_to_one_vector * 8, b, 1);
     return;
 }
 
