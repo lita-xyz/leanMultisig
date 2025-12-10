@@ -66,7 +66,6 @@ fn whir_recursion(transcript_start) {
 
     claimed_sum_side = mul_extension_ret(combination_randomness_gen_0, pcs_eval);
     claimed_sum_0 = add_extension_ret(ood_eval_0, claimed_sum_side);
-    domain_size_0 = N_VARS + LOG_INV_RATE;
     whir_round(fs_state_4, FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0, claimed_sum_0);
     return;
 }
@@ -540,7 +539,7 @@ fn assert_eq_extension(a, b) inline {
 
 fn set_to_one(a) inline {
     a[0] = 1;
-    for i in 1..DIM unroll { a[i] = 0; }
+    for i in 1..DIM { a[i] = 0; }
     return;
 }
 
