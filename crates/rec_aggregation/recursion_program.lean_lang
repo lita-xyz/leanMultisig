@@ -241,15 +241,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
 
     poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
 
-    if merkle_leaves_in_basefield == 1 {
-        for i in 0..num_queries {
-            dot_product_be(answers[i] * 8, poly_eq, folds + i*DIM, 2**FOLDING_FACTOR_0);
-        }
-    } else {
-        for i in 0..num_queries {
-            dot_product_ee_dynamic(answers[i] * 8, poly_eq, folds + i*DIM, two_pow_folding_factor);
-        }
-    }
     return;
 }
 
