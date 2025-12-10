@@ -1,4 +1,4 @@
-const DIM = 3;
+const DIM = 2;
 
 const N = 0;
 
