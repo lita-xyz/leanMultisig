@@ -234,9 +234,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
     leaf_hashes = malloc(num_queries); // a vector of vectorized pointers, each pointing to 1 chunk of 8 field elements
     batch_hash_slice_dynamic(num_queries, answers, leaf_hashes, n_chunks_per_answer);
 
-    // Merkle verification
-    merkle_verif_batch_dynamic(num_queries, leaf_hashes, stir_challenges_indexes + num_queries, prev_root, folded_domain_size);
-
     folds = malloc(num_queries * DIM);
 
     poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
