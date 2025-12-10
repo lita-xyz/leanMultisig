@@ -212,18 +212,6 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
     fs_state_8 = fs_grinding(fs_state, grinding_bits);
     fs_state_9, stir_challenges_indexes = sample_bits_dynamic(fs_state_8, num_queries, folded_domain_size);
 
-    answers = malloc(num_queries); // a vector of vectorized pointers, each pointing to `two_pow_folding_factor` field elements (base if first rounds, extension otherwise)
-    fs_states_b = malloc(num_queries + 1);
-    fs_states_b[0] = fs_state_9;
-    
-    var n_chunks_per_answer;
-    // the number of chunk of 8 field elements per merkle leaf opened
-    if merkle_leaves_in_basefield == 1 {
-        n_chunks_per_answer = two_pow_folding_factor / 8; // "/ 8" because initial merkle leaves are in the basefield
-    } else {
-        n_chunks_per_answer = two_pow_folding_factor * DIM / 8;
-    }
-
     poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
 
     return;
