@@ -72,61 +72,6 @@ fn whir_recursion(transcript_start) {
     return;
 }
 
-fn eq_mle_extension(a, b, n) -> 1 {
-
-    buff = malloc(n*DIM);
-
-    for i in 0..n {
-        shift = i * DIM;
-        ai = a + shift;
-        bi = b + shift;
-        buffi = buff + shift;
-        ab = mul_extension_ret(ai, bi);
-        buffi[0] = 1 + 2 * ab[0] - ai[0] - bi[0];
-        for j in 1..DIM unroll {
-            buffi[j] = 2 * ab[j] - ai[j] - bi[j];
-        }
-    }
-
-    prods = malloc(n*DIM);
-    assert_eq_extension(buff, prods);
-    for i in 0..n - 1 {
-        mul_extension(prods + i*DIM, buff + (i + 1)*DIM, prods + (i + 1)*DIM);
-    }
-
-    return prods + (n - 1) * DIM;
-}
-
-fn eq_mle_extension_base_dynamic(a, b, n) -> 1 {
-    res = malloc(DIM);
-    match n {
-        0 => {  } // unreachable
-        1 => { eq_poly_base_ext(a, b, res, 1); }
-        2 => { eq_poly_base_ext(a, b, res, 2); }
-        3 => { eq_poly_base_ext(a, b, res, 3); }
-        4 => { eq_poly_base_ext(a, b, res, 4); }
-        5 => { eq_poly_base_ext(a, b, res, 5); }
-        6 => { eq_poly_base_ext(a, b, res, 6); }
-        7 => { eq_poly_base_ext(a, b, res, 7); }
-        8 => { eq_poly_base_ext(a, b, res, 8); }
-        9 => { eq_poly_base_ext(a, b, res, 9); }
-        10 => { eq_poly_base_ext(a, b, res, 10); }
-        11 => { eq_poly_base_ext(a, b, res, 11); }
-        12 => { eq_poly_base_ext(a, b, res, 12); }
-        13 => { eq_poly_base_ext(a, b, res, 13); }
-        14 => { eq_poly_base_ext(a, b, res, 14); }
-        15 => { eq_poly_base_ext(a, b, res, 15); }
-        16 => { eq_poly_base_ext(a, b, res, 16); }
-        17 => { eq_poly_base_ext(a, b, res, 17); }
-        18 => { eq_poly_base_ext(a, b, res, 18); }
-        19 => { eq_poly_base_ext(a, b, res, 19); }
-        20 => { eq_poly_base_ext(a, b, res, 20); }
-        21 => { eq_poly_base_ext(a, b, res, 21); }
-        22 => { eq_poly_base_ext(a, b, res, 22); }
-    }
-    return res;
-}
-
 fn expand_from_univariate_dynamic(alpha, n) -> 1 {
     var res;
     match n {
