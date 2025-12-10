@@ -96,26 +96,6 @@ fn degree_two_polynomial_sum_at_0_and_1(coeffs) -> 1 {
     return c;
 }
 
-fn degree_two_polynomial_eval(coeffs, point) -> 1 {
-    // coefs: normal pointer to 3 consecutive EF element
-    // point: normal pointer to 1 EF element
-    // return a normal pointer to 1 EF element
-    point_squared = mul_extension_ret(point, point);
-    a_xx = mul_extension_ret(coeffs + DIM * 2, point_squared);
-    b_x = mul_extension_ret(coeffs + DIM, point);
-    c = coeffs;
-    res_0 = add_extension_ret(a_xx, b_x);
-    res_1 = add_extension_ret(res_0, c);
-    return res_1;
-}
-
-fn parse_commitment(fs_state) -> 4 {
-    fs_state_1, root = fs_receive(fs_state, 1); // vectorized pointer of len 1
-    fs_state_2, ood_point = fs_sample_ef(fs_state_1);
-    fs_state_3, ood_eval = fs_receive_ef(fs_state_2, 1);
-    return fs_state_3, root, ood_point, ood_eval;
-}
-
 // FIAT SHAMIR layout:
 // 0 -> transcript (vectorized pointer)
 // 1 -> vectorized pointer to first half of sponge state
