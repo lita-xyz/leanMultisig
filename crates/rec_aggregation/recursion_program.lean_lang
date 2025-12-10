@@ -3,13 +3,7 @@ const DIM = 5; // extension degree
 const FOLDING_FACTOR_0 = FOLDING_FACTOR_0_PLACEHOLDER;
 
 fn main() {
-    whir_recursion((public_input_start / 8));
-    return;
-}
-
-fn whir_recursion(transcript_start) {
     poly_eq_extension(FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0);
-
     return;
 }
 
