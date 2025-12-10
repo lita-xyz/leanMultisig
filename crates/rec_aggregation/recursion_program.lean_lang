@@ -95,7 +95,7 @@ fn sumcheck(fs_state, n_steps, claimed_sum) -> 1 {
 }
 
 fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness) {
-    poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
+    poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
 
     return;
 }
@@ -133,7 +133,7 @@ fn powers(alpha, n) -> 1 {
     return res;
 }
 
-fn poly_eq_extension(point, n, two_pow_n) -> 1 {
+fn poly_eq_extension(point, n, two_pow_n) {
     // Example: for n = 2: eq(x, y) = [(1 - x)(1 - y), (1 - x)y, x(1 - y), xy]
 
     if n == 0 {
@@ -143,7 +143,7 @@ fn poly_eq_extension(point, n, two_pow_n) -> 1 {
     } else {
         res = malloc(two_pow_n * DIM);
 
-        inner_res = poly_eq_extension(point + DIM, n - 1, two_pow_n / 2);
+        poly_eq_extension(point + DIM, n - 1, two_pow_n / 2);
 
         return res;
     }
