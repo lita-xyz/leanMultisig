@@ -13,7 +13,7 @@ fn rec(n, two_pow_n) {
         res[1] = 0; // deleting this makes the test pass
         return;
     } else {
-        res = malloc(two_pow_n * DIM); // deleting this or any part of it makes the test pass
+        res = malloc(two_pow_n * 2); // deleting this or any part of it makes the test pass
 
         return;
     }
