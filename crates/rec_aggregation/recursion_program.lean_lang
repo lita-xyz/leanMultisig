@@ -205,7 +205,7 @@ fn sumcheck(fs_state, n_steps, claimed_sum) -> 3 {
     return new_state, folding_randomness, new_claimed_sum;
 }
 
-fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits) -> 3 {
+fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits) {
 
     folded_domain_size = domain_size - folding_factor;
 
@@ -258,7 +258,7 @@ fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefiel
         circle_values[i] = circle_value;
     }
 
-    return fs_state_10, circle_values, folds;
+    return;
 }
 
 fn batch_hash_slice_dynamic(num_queries, all_data_to_hash, all_resulting_hashes, len) {
@@ -329,8 +329,7 @@ fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkl
 
     fs_state_8, root, ood_point, ood_eval = parse_commitment(fs_state_7);
 
-    fs_state_11, circle_values, folds = 
-        sample_stir_indexes_and_fold(fs_state_8, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits);
+    sample_stir_indexes_and_fold(fs_state_8, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits);
 
     return;
 }
