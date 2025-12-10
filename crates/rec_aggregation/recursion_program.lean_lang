@@ -8,12 +8,7 @@ fn main() {
 }
 
 fn whir_recursion(transcript_start) {
-    whir_round(FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0);
-    return;
-}
-
-fn whir_round(folding_factor, two_pow_folding_factor) {
-    poly_eq_extension(folding_factor, two_pow_folding_factor);
+    poly_eq_extension(FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0);
 
     return;
 }
