@@ -30,18 +30,6 @@ fn whir_round(folding_factor, two_pow_folding_factor) {
     return;
 }
 
-fn powers(alpha, n) -> 1 {
-    // alpha: EF
-    // n: F
-
-    res = malloc(n * DIM);
-    set_to_one(res);
-    for i in 0..n - 1 {
-        mul_extension(res + i*DIM, alpha, res + (i + 1)*DIM);
-    }
-    return res;
-}
-
 fn poly_eq_extension(n, two_pow_n) {
     // Example: for n = 2: eq(x, y) = [(1 - x)(1 - y), (1 - x)y, x(1 - y), xy]
 
