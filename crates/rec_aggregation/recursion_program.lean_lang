@@ -12,7 +12,6 @@ fn poly_eq_extension(n, two_pow_n) {
 
     if n == 0 {
         res = malloc(DIM);
-        res[0] = 1;
         res[1] = 0;
         return;
     } else {
