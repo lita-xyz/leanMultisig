@@ -1,10 +1,10 @@
 fn main() {
-    rec(0, 1);
+    rec(1);
     return;
 }
 
-fn rec(n, two_pow_n) {
-    if n == 0 {
+fn rec(two_pow_n) {
+    if 0 == 0 {
         res = malloc(2);
         res[1] = 0; // deleting this makes the test pass
         return;
