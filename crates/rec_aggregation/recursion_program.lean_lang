@@ -539,7 +539,7 @@ fn assert_eq_extension(a, b) inline {
 
 fn set_to_one(a) inline {
     a[0] = 1;
-    for i in 1..DIM { a[i] = 0; }
+    a[1] = 0;
     return;
 }
 
