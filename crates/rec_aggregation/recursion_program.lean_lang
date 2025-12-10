@@ -1,13 +1,13 @@
-const DIM = 5; // extension degree
+const DIM = 5;
 
-const FOLDING_FACTOR_0 = 7;
+const N = 7;
 
 fn main() {
-    poly_eq_extension(FOLDING_FACTOR_0, 2**FOLDING_FACTOR_0);
+    rec(N, 2**N);
     return;
 }
 
-fn poly_eq_extension(n, two_pow_n) {
+fn rec(n, two_pow_n) {
     // Example: for n = 2: eq(x, y) = [(1 - x)(1 - y), (1 - x)y, x(1 - y), xy]
 
     if n == 0 {
@@ -17,7 +17,7 @@ fn poly_eq_extension(n, two_pow_n) {
     } else {
         res = malloc(two_pow_n * DIM); // deleting this makes the test pass
 
-        poly_eq_extension(n - 1, two_pow_n / 2);
+        rec(n - 1, two_pow_n / 2);
 
         return;
     }
