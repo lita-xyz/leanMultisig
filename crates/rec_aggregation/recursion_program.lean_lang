@@ -46,15 +46,6 @@ fn poly_eq_extension(n, two_pow_n) {
     }
 }
 
-
-fn pow(a, b) -> 1 {
-    if b == 0 {
-        return 1; // a^0 = 1
-    } else {
-        p = pow(a, b - 1);
-        return a * p;
-    }
-}
 fn mul_extension(a, b, c) inline {
     dot_product_ee(a, b, c, 1);
     return;
