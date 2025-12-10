@@ -17,7 +17,7 @@ fn rec(n, two_pow_n) {
     } else {
         res = malloc(two_pow_n * DIM); // deleting this makes the test pass
 
-        rec(n - 1, two_pow_n / 2);
+        poly_eq_extension(n - 1, two_pow_n / 2); // deleting this makes the test pass
 
         return;
     }
