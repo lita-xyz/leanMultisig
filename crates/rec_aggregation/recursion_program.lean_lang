@@ -12,7 +12,8 @@ fn poly_eq_extension(n, two_pow_n) {
 
     if n == 0 {
         res = malloc(DIM);
-        set_to_one(res);
+        res[0] = 1;
+        res[1] = 0;
         return;
     } else {
         res = malloc(two_pow_n * DIM); // deleting this makes the test pass
@@ -21,11 +22,5 @@ fn poly_eq_extension(n, two_pow_n) {
 
         return;
     }
-}
-
-fn set_to_one(a) {
-    a[0] = 1;
-    a[1] = 0;
-    return;
 }
 
