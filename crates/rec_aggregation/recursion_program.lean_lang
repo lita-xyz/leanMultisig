@@ -544,15 +544,6 @@ fn assert_eq_extension(a, b) inline {
     return;
 }
 
-// TODO improve
-fn assert_eq_vec(a, b) inline {
-    a_ptr = a * 8;
-    b_ptr = b * 8;
-    dot_product_ee(a_ptr, pointer_to_one_vector * 8, b_ptr, 1);
-    dot_product_ee(a_ptr + (8 - DIM), pointer_to_one_vector * 8, b_ptr + (8 - DIM), 1);
-    return;
-}
-
 fn set_to_one(a) inline {
     a[0] = 1;
     for i in 1..DIM unroll { a[i] = 0; }
