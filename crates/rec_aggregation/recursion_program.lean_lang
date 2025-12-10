@@ -1,9 +1,9 @@
 fn main() {
-    rec(1);
+    f(1);
     return;
 }
 
-fn rec(two_pow_n) {
+fn f(two_pow_n) {
     if 0 == 0 {
         res = malloc(2);
         res[1] = 0; // deleting this makes the test pass
