@@ -46,11 +46,6 @@ fn poly_eq_extension(n, two_pow_n) {
     }
 }
 
-fn mul_extension(a, b, c) inline {
-    dot_product_ee(a, b, c, 1);
-    return;
-}
-
 fn set_to_one(a) inline {
     a[0] = 1;
     a[1] = 0;
