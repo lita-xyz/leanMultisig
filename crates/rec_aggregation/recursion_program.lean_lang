@@ -8,8 +8,6 @@ fn main() {
 }
 
 fn rec(n, two_pow_n) {
-    // Example: for n = 2: eq(x, y) = [(1 - x)(1 - y), (1 - x)y, x(1 - y), xy]
-
     if n == 0 {
         res = malloc(DIM);
         res[1] = 0; // deleting this makes the test pass
