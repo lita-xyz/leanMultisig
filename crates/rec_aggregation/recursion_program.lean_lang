@@ -68,40 +68,6 @@ fn pow(a, b) -> 1 {
     }
 }
 
-fn checked_decompose_bits(a, k) -> 2 {
-    // return a pointer to the 31 bits of a
-    // .. and the partial value, reading the first K bits
-    bits = decompose_bits(a); // hint
-
-    for i in 0..F_BITS unroll {
-        // assert bits[i] * (1 - bits[i]) == 1;
-        assert bits[i] * (1 - bits[i]) == 0;
-    }
-    sums = malloc(F_BITS);
-    sums[0] = bits[0];
-    for i in 1..F_BITS unroll {
-        sums[i] = sums[i - 1] + bits[i] * 2**i;
-    }
-    assert a == sums[F_BITS - 1];
-    partial_sum = sums[k - 1];
-    return bits, partial_sum;
-}
-
-fn degree_two_polynomial_sum_at_0_and_1(coeffs) -> 1 {
-    // coeffs is a normal pointer to 3 consecutive EF element
-    // return a normal pointer to 1 ef element
-    a = add_extension_ret(coeffs, coeffs);
-    b = add_extension_ret(a, coeffs + DIM);
-    c = add_extension_ret(b, coeffs + (DIM * 2));
-    return c;
-}
-
-// FIAT SHAMIR layout:
-// 0 -> transcript (vectorized pointer)
-// 1 -> vectorized pointer to first half of sponge state
-// 2 -> vectorized pointer to second half of sponge state
-// 3 -> output_buffer_size
-
 fn mul_extension_ret(a, b) inline -> 1 {
     c = malloc(DIM);
     dot_product_ee(a, b, c, 1);
