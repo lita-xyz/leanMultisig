@@ -99,7 +99,7 @@ fn sumcheck(fs_state, n_steps, claimed_sum) -> 3 {
     return new_state, folding_randomness, new_claimed_sum;
 }
 
-fn sample_stir_indexes_and_fold(fs_state, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits) {
+fn sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness) {
     poly_eq = poly_eq_extension(folding_randomness, folding_factor, two_pow_folding_factor);
 
     return;
@@ -110,7 +110,7 @@ fn whir_round(fs_state, prev_root, folding_factor, two_pow_folding_factor, merkl
 
     fs_state_8, root, ood_point, ood_eval = parse_commitment(fs_state_7);
 
-    sample_stir_indexes_and_fold(fs_state_8, num_queries, merkle_leaves_in_basefield, folding_factor, two_pow_folding_factor, domain_size, prev_root, folding_randomness, grinding_bits);
+    sample_stir_indexes_and_fold(folding_factor, two_pow_folding_factor, folding_randomness);
 
     return;
 }
