@@ -16,6 +16,7 @@ pub fn compile_program(filepath: &str, program: String) -> Bytecode {
     let parsed_program = parse_program(filepath, &program).unwrap();
     // println!("Parsed program: {}", parsed_program.to_string());
     let function_locations = parsed_program.function_locations.clone();
+    let files = parsed_program.files.clone();
     let simple_program = simplify_program(parsed_program);
     // println!("Simplified program: {}", simple_program);
     let intermediate_bytecode = compile_to_intermediate_bytecode(simple_program).unwrap();
@@ -26,7 +27,7 @@ pub fn compile_program(filepath: &str, program: String) -> Bytecode {
     //     println!("{name}: {loc}");
     // }
     /* let compiled = */
-    compile_to_low_level_bytecode(intermediate_bytecode, program, function_locations).unwrap() // ;
+    compile_to_low_level_bytecode(intermediate_bytecode, program, function_locations, files).unwrap() // ;
     // println!("\n\nCompiled Program:\n\n{compiled}");
     // compiled
 }

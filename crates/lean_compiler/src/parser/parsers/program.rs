@@ -10,6 +10,7 @@ use crate::{
     },
 };
 use std::collections::BTreeMap;
+use std::path::Path;
 
 /// Parser for complete programs.
 pub struct ProgramParser;
@@ -35,7 +36,30 @@ impl Parse<Program> for ProgramParser {
                     // Visit the imported file and parse it into the context
                     // and program; also keep track of which files have been
                     // imported and do not import the same file twice.
-                    todo!()
+                    let filepath = ImportStatementParser::parse(item, ctx)?;
+                    let filepath = Path::new(&ctx.current_filepath)
+                        .parent()
+                        .expect("Empty filepath")
+                        .join(filepath)
+                        .to_str()
+                        .expect("Invalid UTF-8 in filepath")
+                        .to_string();
+                    if !ctx.imported_filepaths.contains(&filepath) {
+                        let saved_filepath = ctx.current_filepath.clone();
+                        ctx.current_filepath = filepath.clone();
+                        ctx.imported_filepaths.insert(filepath.clone());
+                        let file_id = ctx.get_next_file_id();
+                        files.insert(file_id, filepath.clone());
+                        let input = std::fs::read_to_string(filepath.clone())
+                            .map_err(|_| SemanticError::with_context(
+                                format!("Imported file not found: {filepath}"),
+                                "import declaration",
+                            ))?;
+                        let subprogram = parse_program_helper(filepath.as_str(), input.as_str(), ctx)?;
+                        functions.extend(subprogram.functions);
+                        function_locations.extend(subprogram.function_locations);
+                        files.extend(subprogram.files);
+                    }
                 }
                 Rule::function => {
                     let line_number = item.line_col().0;
