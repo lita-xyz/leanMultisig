@@ -9,7 +9,7 @@ use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::Bytecode;
 use crate::isa::instruction::InstructionContext;
 use crate::{
-    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLineNumber, Table,
+    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLocation, SourceLineNumber, Table,
     TableTrace,
 };
 use multilinear_toolkit::prelude::*;
@@ -77,7 +77,7 @@ pub fn execute_bytecode(
         println!(
             "\n{}",
             crate::diagnostics::pretty_stack_trace(
-                &bytecode.program,
+                todo!(),
                 todo!(), // latest_instructions,
                 &bytecode.function_locations,
                 last_pc
@@ -105,13 +105,14 @@ fn print_line_cycle_counts(history: ExecutionHistory) {
     println!("Line by line cycle counts");
     println!("=========================\n");
 
-    let mut gross_cycle_counts: BTreeMap<SourceLineNumber, usize> = BTreeMap::new();
+    let mut gross_cycle_counts: BTreeMap<SourceLocation, usize> = BTreeMap::new();
     for (line, cycle_count) in history.lines.iter().zip(history.lines_cycles.iter()) {
         let prev_count = gross_cycle_counts.get(line).unwrap_or(&0);
         gross_cycle_counts.insert(*line, *prev_count + cycle_count);
     }
-    for (line, cycle_count) in gross_cycle_counts.iter() {
-        println!("line {line}: {cycle_count} cycles");
+    for (location, cycle_count) in gross_cycle_counts.iter() {
+        let filepath = todo!();
+        println!("{filepath}:{}: {cycle_count} cycles", location.line_number);
     }
     println!();
 }

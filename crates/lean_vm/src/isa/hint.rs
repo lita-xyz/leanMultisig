@@ -1,4 +1,4 @@
-use crate::core::{F, LOG_VECTOR_LEN, Label, SourceLineNumber, VECTOR_LEN};
+use crate::core::{F, LOG_VECTOR_LEN, Label, SourceLocation, VECTOR_LEN};
 use crate::diagnostics::{MemoryObject, MemoryObjectType, MemoryProfile, RunnerError};
 use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::operands::MemOrConstant;
@@ -61,7 +61,7 @@ pub enum Hint {
     /// Report source code location for debugging
     LocationReport {
         /// Source code location
-        location: SourceLineNumber,
+        location: SourceLocation,
     },
     /// Jump destination label (for debugging purposes)
     Label {
@@ -73,7 +73,7 @@ pub enum Hint {
         size: usize,
     },
     /// Assert a boolean expression for debugging purposes
-    DebugAssert(BooleanExpr<MemOrConstant>, SourceLineNumber),
+    DebugAssert(BooleanExpr<MemOrConstant>, SourceLocation),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -258,7 +258,7 @@ impl Hint {
                     );
                 }
             }
-            Self::DebugAssert(bool_expr, line_number) => {
+            Self::DebugAssert(bool_expr, location) => {
                 let left = bool_expr.left.read_value(ctx.memory, ctx.fp)?;
                 let right = bool_expr.right.read_value(ctx.memory, ctx.fp)?;
                 let condition_holds = match bool_expr.kind {
@@ -267,9 +267,10 @@ impl Hint {
                     Boolean::LessThan => left < right,
                 };
                 if !condition_holds {
+                    let filepath = todo!();
                     return Err(RunnerError::DebugAssertFailed(
                         format!("{} {} {}", left, bool_expr.kind, right),
-                        *line_number,
+                        *location,
                     ));
                 }
             }
@@ -337,8 +338,9 @@ impl Display for Hint {
             Self::Inverse { arg, res_offset } => {
                 write!(f, "m[fp + {res_offset}] = inverse({arg})")
             }
-            Self::LocationReport { location: line_number } => {
-                write!(f, "source line number: {line_number}")
+            Self::LocationReport { location: SourceLocation { file_id, line_number } } => {
+                let filepath = todo!();
+                write!(f, "source location: {filepath}:{line_number}")
             }
             Self::Label { label } => {
                 write!(f, "label: {label}")

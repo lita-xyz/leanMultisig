@@ -1,4 +1,5 @@
 use p3_koala_bear::{KoalaBear, QuinticExtensionFieldKB};
+use derive_more::Display;
 
 /// Base field type for VM operations
 pub type F = KoalaBear;
@@ -22,7 +23,8 @@ pub type FunctionName = String;
 pub type FileId = usize;
 
 /// Location in source code
-#[derive(Hash, PartialEq, Eq, PartialOrd, Ord, Debug, Clone)]
+#[derive(Display, Hash, PartialEq, Eq, PartialOrd, Ord, Debug, Clone, Copy)]
+#[display("{}:{}", file_id, line_number)]
 pub struct SourceLocation {
     pub file_id: FileId,
     pub line_number: SourceLineNumber,

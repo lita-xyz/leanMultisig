@@ -6,7 +6,7 @@ use crate::{
         Expression, Function, Line, Program, Scope, SimpleExpr, Var,
     },
 };
-use lean_vm::{Boolean, BooleanExpr, SourceLineNumber, Table, TableT};
+use lean_vm::{Boolean, BooleanExpr, SourceLineNumber, SourceLocation, Table, TableT};
 use std::{
     collections::{BTreeMap, BTreeSet},
     fmt::{Display, Formatter},
@@ -146,7 +146,7 @@ pub enum SimpleLine {
     },
     // noop, debug purpose only
     LocationReport {
-        location: SourceLineNumber,
+        location: SourceLocation,
     },
     DebugAssert(BooleanExpr<SimpleExpr>, SourceLineNumber),
 }
@@ -1122,7 +1122,7 @@ fn simplify_lines(
                 res.push(SimpleLine::Panic);
             }
             Line::LocationReport { location } => {
-                res.push(SimpleLine::LocationReport { location: *location });
+                res.push(SimpleLine::LocationReport { location: todo!() });
             }
         }
     }
