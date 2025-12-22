@@ -275,9 +275,8 @@ fn execute_bytecode_helper(
     let mut summary = String::new();
 
     if profiling {
-        todo!();
-        // let report = crate::diagnostics::profiling_report(instruction_history, &bytecode.function_locations);
-        // summary.push_str(&report);
+        let report = crate::diagnostics::profiling_report(instruction_history, &bytecode.function_locations);
+        summary.push_str(&report);
     }
 
     if !std_out.is_empty() {

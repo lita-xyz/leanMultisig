@@ -14,10 +14,10 @@ pub(crate) fn pretty_stack_trace(
     last_pc: usize,
 ) -> String {
     let mut source_locations: BTreeMap<SourceLocation, &str> = BTreeMap::new();
-    for (fId, src) in source_code.iter() {
+    for (f_id, src) in source_code.iter() {
         for (i, line) in src.lines().enumerate() {
             source_locations.insert(SourceLocation {
-                file_id: *fId,
+                file_id: *f_id,
                 line_number: i
             }, line);
         }
@@ -132,7 +132,7 @@ pub(crate) fn find_function_for_location(location: SourceLocation, function_loca
         .range(..=location)
         .next_back()
         .map(|(location, func_name)| (*location, func_name.clone()))
-        .unwrap()
+        .expect(format!("Did not find function for location: {location}").as_str())
 }
 
 fn count_remaining_lines_in_function(

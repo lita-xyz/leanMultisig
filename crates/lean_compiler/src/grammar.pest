@@ -1,7 +1,7 @@
 WHITESPACE = _{ " " | "\t" | "\n" | "\r" }
 
 // Program structure
-program = { SOI ~ import_statement* ~ constant_declaration* ~ function+ ~ EOI }
+program = { SOI ~ import_statement* ~ constant_declaration* ~ function* ~ EOI }
 
 // Imports
 import_statement = { "import" ~ filepath ~ ";" }

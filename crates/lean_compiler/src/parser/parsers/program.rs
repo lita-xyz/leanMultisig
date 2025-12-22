@@ -22,6 +22,7 @@ impl Parse<Program> for ProgramParser {
         let mut source_code = BTreeMap::new();
         let mut filepaths = BTreeMap::new();
         let file_id = ctx.get_next_file_id();
+        ctx.current_file_id = file_id;
         filepaths.insert(file_id, ctx.current_filepath.clone());
         source_code.insert(file_id, ctx.current_source_code.clone());
 
@@ -48,6 +49,7 @@ impl Parse<Program> for ProgramParser {
                         .to_string();
                     if !ctx.imported_filepaths.contains(&filepath) {
                         let saved_filepath = ctx.current_filepath.clone();
+                        let saved_file_id = ctx.current_file_id;
                         ctx.current_filepath = filepath.clone();
                         ctx.imported_filepaths.insert(filepath.clone());
                         let file_id = ctx.get_next_file_id();
@@ -64,6 +66,10 @@ impl Parse<Program> for ProgramParser {
                         function_locations.extend(subprogram.function_locations);
                         source_code.extend(subprogram.source_code);
                         filepaths.extend(subprogram.filepaths);
+                        ctx.current_filepath = saved_filepath;
+                        ctx.current_file_id = saved_file_id;
+                        // It is unnecessary to save and restore current_source_code because it will not
+                        // be referenced again for the same file.
                     }
                 }
                 Rule::function => {

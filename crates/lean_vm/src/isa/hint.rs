@@ -1,4 +1,4 @@
-use crate::core::{F, LOG_VECTOR_LEN, FileId, Label, SourceLocation, VECTOR_LEN};
+use crate::core::{F, LOG_VECTOR_LEN, Label, SourceLocation, VECTOR_LEN};
 use crate::diagnostics::{MemoryObject, MemoryObjectType, MemoryProfile, RunnerError};
 use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::operands::MemOrConstant;
