@@ -1,6 +1,6 @@
 //! Bytecode representation and management
 
-use crate::{CodeAddress, Hint};
+use crate::{CodeAddress, FileId, FunctionName, Hint, SourceLocation};
 
 use super::Instruction;
 use std::collections::BTreeMap;
@@ -14,7 +14,8 @@ pub struct Bytecode {
     pub starting_frame_memory: usize,
     // debug
     pub program: String,
-    pub function_locations: BTreeMap<usize, String>,
+    pub function_locations: BTreeMap<SourceLocation, FunctionName>,
+    pub files: BTreeMap<FileId, String>,
 }
 
 impl Display for Bytecode {

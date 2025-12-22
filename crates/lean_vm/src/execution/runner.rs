@@ -72,13 +72,13 @@ pub fn execute_bytecode(
         merkle_path_hints,
     )
     .unwrap_or_else(|(last_pc, err)| {
-        let lines_history = &instruction_history.lines;
-        let latest_instructions = &lines_history[lines_history.len().saturating_sub(STACK_TRACE_INSTRUCTIONS)..];
+        // let lines_history = &instruction_history.lines;
+        // let latest_instructions = &lines_history[lines_history.len().saturating_sub(STACK_TRACE_INSTRUCTIONS)..];
         println!(
             "\n{}",
             crate::diagnostics::pretty_stack_trace(
                 &bytecode.program,
-                latest_instructions,
+                todo!(), // latest_instructions,
                 &bytecode.function_locations,
                 last_pc
             )
@@ -273,8 +273,9 @@ fn execute_bytecode_helper(
     let mut summary = String::new();
 
     if profiling {
-        let report = crate::diagnostics::profiling_report(instruction_history, &bytecode.function_locations);
-        summary.push_str(&report);
+        todo!();
+        // let report = crate::diagnostics::profiling_report(instruction_history, &bytecode.function_locations);
+        // summary.push_str(&report);
     }
 
     if !std_out.is_empty() {

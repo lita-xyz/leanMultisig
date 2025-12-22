@@ -6,11 +6,14 @@ use std::fmt::{Display, Formatter};
 use utils::ToUsize;
 
 use crate::{F, ir::HighLevelOperation};
+pub use lean_vm::{FunctionName, FileId, SourceLocation};
 
 #[derive(Debug, Clone)]
 pub struct Program {
-    pub functions: BTreeMap<String, Function>,
+    pub functions: BTreeMap<FunctionName, Function>,
     pub const_arrays: BTreeMap<String, Vec<usize>>,
+    pub function_locations: BTreeMap<SourceLocation, FunctionName>,
+    pub files: BTreeMap<FileId, String>,
 }
 
 #[derive(Debug, Clone)]

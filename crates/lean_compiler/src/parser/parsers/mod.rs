@@ -2,7 +2,8 @@ use crate::parser::{
     error::{ParseResult, SemanticError},
     grammar::{ParsePair, Rule},
 };
-use std::collections::BTreeMap;
+use crate::lang::FileId;
+use std::collections::{BTreeMap, BTreeSet};
 
 pub mod expression;
 pub mod function;
@@ -26,14 +27,23 @@ pub struct ParseContext {
     pub const_arrays: BTreeMap<String, Vec<usize>>,
     /// Counter for generating unique trash variable names
     pub trash_var_count: usize,
+    /// Filepath of the file we are currently parsing
+    pub current_filepath: String,
+    /// Absolute filepaths imported so far (also includes the root filepath)
+    pub imported_filepaths: BTreeSet<String>,
+    /// Next unused file ID
+    pub next_file_id: usize,
 }
 
 impl ParseContext {
-    pub const fn new() -> Self {
+    pub fn new(current_filepath: &str) -> Self {
         Self {
             constants: BTreeMap::new(),
             const_arrays: BTreeMap::new(),
             trash_var_count: 0,
+            current_filepath: current_filepath.to_string(),
+            imported_filepaths: BTreeSet::new(),
+            next_file_id: 0,
         }
     }
 
@@ -78,11 +88,18 @@ impl ParseContext {
         self.trash_var_count += 1;
         format!("@trash_{}", self.trash_var_count)
     }
+
+    /// Returns a fresh file id.
+    pub fn get_next_file_id(&mut self) -> FileId {
+        let file_id = self.next_file_id;
+        self.next_file_id += 1;
+        file_id
+    }
 }
 
 impl Default for ParseContext {
     fn default() -> Self {
-        Self::new()
+        Self::new("<string>")
     }
 }
 
