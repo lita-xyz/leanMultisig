@@ -6,6 +6,7 @@ use crate::{
     parser::{
         error::{ParseResult, SemanticError},
         grammar::{ParsePair, Rule},
+        parsers::next_inner_pair,
     },
 };
 use std::collections::BTreeMap;
@@ -27,6 +28,12 @@ impl Parse<(Program, BTreeMap<usize, String>)> for ProgramParser {
                         ParsedConstant::Scalar(v) => ctx.add_constant(name, v)?,
                         ParsedConstant::Array(arr) => ctx.add_const_array(name, arr)?,
                     }
+                }
+                Rule::import_statement => {
+                    // Visit the imported file and parse it into the context
+                    // and program; also keep track of which files have been
+                    // imported and do not import the same file twice.
+                    todo!()
                 }
                 Rule::function => {
                     let location = item.line_col().0;
@@ -57,3 +64,41 @@ impl Parse<(Program, BTreeMap<usize, String>)> for ProgramParser {
         ))
     }
 }
+
+/// Parser for import statements.
+pub struct ImportStatementParser;
+
+impl Parse<String> for ImportStatementParser {
+    fn parse(pair: ParsePair<'_>, ctx: &mut ParseContext) -> ParseResult<String> {
+        let mut inner = pair.into_inner();
+        let mut item = next_inner_pair(&mut inner, "filepath")?;
+        match item.as_rule() {
+            Rule::filepath => {
+                let mut inner = item.into_inner();
+                let mut filepath = String::new();
+                for item in inner {
+                    match item.as_rule() {
+                        Rule::filepath_character => {
+                            filepath.push_str(item.as_str());
+                        },
+                        _ => {
+                            return Err(SemanticError::with_context(
+                                format!("Expected a filepath character, got: {}",
+                                    item.as_str()),
+                                "filepath character",
+                            ).into());
+                        }
+                    }
+                }
+                Ok(filepath)
+            },
+            _ => Err(SemanticError::with_context(
+                format!("Expected a filepath, got: {}", item.as_str()),
+                "filepath"
+            )
+            .into()),
+        }
+    }
+}
+
+
