@@ -2,14 +2,14 @@
 
 use crate::core::{
     DIMENSION, F, NONRESERVED_PROGRAM_INPUT_START, ONE_VEC_PTR, POSEIDON_16_NULL_HASH_PTR, POSEIDON_24_NULL_HASH_PTR,
-    VECTOR_LEN, ZERO_VEC_PTR,
+    VECTOR_LEN, ZERO_VEC_PTR, FileId,
 };
 use crate::diagnostics::{ExecutionResult, MemoryProfile, RunnerError, memory_profiling_report};
 use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::Bytecode;
 use crate::isa::instruction::InstructionContext;
 use crate::{
-    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLocation, SourceLineNumber, Table,
+    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLocation, Table,
     TableTrace,
 };
 use multilinear_toolkit::prelude::*;
@@ -72,14 +72,15 @@ pub fn execute_bytecode(
         merkle_path_hints,
     )
     .unwrap_or_else(|(last_pc, err)| {
-        // let lines_history = &instruction_history.lines;
-        // let latest_instructions = &lines_history[lines_history.len().saturating_sub(STACK_TRACE_INSTRUCTIONS)..];
+        let lines_history = &instruction_history.lines;
+        let latest_instructions = &lines_history[lines_history.len().saturating_sub(STACK_TRACE_INSTRUCTIONS)..];
         println!(
             "\n{}",
             crate::diagnostics::pretty_stack_trace(
-                todo!(),
-                todo!(), // latest_instructions,
+                &bytecode.source_code,
+                latest_instructions,
                 &bytecode.function_locations,
+                &bytecode.filepaths,
                 last_pc
             )
         );
@@ -92,7 +93,7 @@ pub fn execute_bytecode(
         panic!("Error during bytecode execution: {err}");
     });
     if profiling {
-        print_line_cycle_counts(instruction_history);
+        print_line_cycle_counts(instruction_history, &bytecode.filepaths);
         print_instruction_cycle_counts(bytecode, result.pcs.clone());
         if let Some(ref mem_profile) = result.memory_profile {
             print!("{}", memory_profiling_report(mem_profile));
@@ -101,7 +102,7 @@ pub fn execute_bytecode(
     result
 }
 
-fn print_line_cycle_counts(history: ExecutionHistory) {
+fn print_line_cycle_counts(history: ExecutionHistory, filepaths: &BTreeMap<FileId, String>) {
     println!("Line by line cycle counts");
     println!("=========================\n");
 
@@ -111,7 +112,7 @@ fn print_line_cycle_counts(history: ExecutionHistory) {
         gross_cycle_counts.insert(*line, *prev_count + cycle_count);
     }
     for (location, cycle_count) in gross_cycle_counts.iter() {
-        let filepath = todo!();
+        let filepath = filepaths.get(&location.file_id).expect("Unmapped FileId");
         println!("{filepath}:{}: {cycle_count} cycles", location.line_number);
     }
     println!();

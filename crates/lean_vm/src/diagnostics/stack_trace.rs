@@ -7,9 +7,10 @@ use crate::{FileId, SourceLocation, FunctionName, SourceLineNumber};
 const STACK_TRACE_MAX_LINES_PER_FUNCTION: usize = 5;
 
 pub(crate) fn pretty_stack_trace(
-    source_code: &BTreeMap<FileId, &str>,
+    source_code: &BTreeMap<FileId, String>,
     instructions: &[SourceLocation],
     function_locations: &BTreeMap<SourceLocation, FunctionName>,
+    filepaths: &BTreeMap<FileId, String>,
     last_pc: usize,
 ) -> String {
     let mut source_locations: BTreeMap<SourceLocation, &str> = BTreeMap::new();
@@ -32,7 +33,7 @@ pub(crate) fn pretty_stack_trace(
 
     for (idx, &location) in instructions.iter().enumerate() {
         let (current_function_location, current_function_name) = find_function_for_location(location, function_locations);
-        let current_filepath = todo!();
+        let current_filepath = filepaths.get(&current_function_location.file_id).expect("Undefined FileId");
 
         if prev_function_location != Some(current_function_location) {
             assert_eq!(skipped_lines, 0);
@@ -112,7 +113,7 @@ pub(crate) fn pretty_stack_trace(
     if !call_stack.is_empty() {
         result.push_str("\nCall stack:\n");
         for (i, (location, func)) in call_stack.iter().enumerate() {
-            let filepath = todo!();
+            let filepath = filepaths.get(&location.file_id).expect("Undefined FileId");
             if i + 1 == call_stack.len() {
                 result.push_str(&format!("  {}. {} ({}:{}, pc {})\n", i + 1, func, filepath, location.line_number, last_pc));
             } else {

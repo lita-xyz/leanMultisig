@@ -13,12 +13,14 @@ pub struct Program {
     pub functions: BTreeMap<FunctionName, Function>,
     pub const_arrays: BTreeMap<String, Vec<usize>>,
     pub function_locations: BTreeMap<SourceLocation, FunctionName>,
-    pub files: BTreeMap<FileId, String>,
+    pub source_code: BTreeMap<FileId, String>,
+    pub filepaths: BTreeMap<FileId, String>,
 }
 
 #[derive(Debug, Clone)]
 pub struct Function {
     pub name: String,
+    pub file_id: FileId,
     pub arguments: Vec<(Var, bool)>, // (name, is_const)
     pub inlined: bool,
     pub n_returned_vars: usize,

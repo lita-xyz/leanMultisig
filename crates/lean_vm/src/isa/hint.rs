@@ -1,4 +1,4 @@
-use crate::core::{F, LOG_VECTOR_LEN, Label, SourceLocation, VECTOR_LEN};
+use crate::core::{F, LOG_VECTOR_LEN, FileId, Label, SourceLocation, VECTOR_LEN};
 use crate::diagnostics::{MemoryObject, MemoryObjectType, MemoryProfile, RunnerError};
 use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::operands::MemOrConstant;
@@ -267,7 +267,6 @@ impl Hint {
                     Boolean::LessThan => left < right,
                 };
                 if !condition_holds {
-                    let filepath = todo!();
                     return Err(RunnerError::DebugAssertFailed(
                         format!("{} {} {}", left, bool_expr.kind, right),
                         *location,
@@ -339,8 +338,8 @@ impl Display for Hint {
                 write!(f, "m[fp + {res_offset}] = inverse({arg})")
             }
             Self::LocationReport { location: SourceLocation { file_id, line_number } } => {
-                let filepath = todo!();
-                write!(f, "source location: {filepath}:{line_number}")
+                // TODO: make a pretty-print method which shows the filepath instead of file_id
+                write!(f, "source location: {file_id}:{line_number}")
             }
             Self::Label { label } => {
                 write!(f, "label: {label}")

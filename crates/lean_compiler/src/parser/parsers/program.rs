@@ -19,9 +19,11 @@ impl Parse<Program> for ProgramParser {
     fn parse(&self, pair: ParsePair<'_>, ctx: &mut ParseContext) -> ParseResult<Program> {
         let mut functions = BTreeMap::new();
         let mut function_locations = BTreeMap::new();
-        let mut files = BTreeMap::new();
+        let mut source_code = BTreeMap::new();
+        let mut filepaths = BTreeMap::new();
         let file_id = ctx.get_next_file_id();
-        files.insert(file_id, ctx.current_filepath.clone());
+        filepaths.insert(file_id, ctx.current_filepath.clone());
+        source_code.insert(file_id, ctx.current_source_code.clone());
 
         for item in pair.into_inner() {
             match item.as_rule() {
@@ -36,7 +38,7 @@ impl Parse<Program> for ProgramParser {
                     // Visit the imported file and parse it into the context
                     // and program; also keep track of which files have been
                     // imported and do not import the same file twice.
-                    let filepath = ImportStatementParser::parse(item, ctx)?;
+                    let filepath = ImportStatementParser.parse(item, ctx)?;
                     let filepath = Path::new(&ctx.current_filepath)
                         .parent()
                         .expect("Empty filepath")
@@ -49,16 +51,19 @@ impl Parse<Program> for ProgramParser {
                         ctx.current_filepath = filepath.clone();
                         ctx.imported_filepaths.insert(filepath.clone());
                         let file_id = ctx.get_next_file_id();
-                        files.insert(file_id, filepath.clone());
+                        ctx.current_file_id = file_id;
+                        filepaths.insert(file_id, filepath.clone());
                         let input = std::fs::read_to_string(filepath.clone())
                             .map_err(|_| SemanticError::with_context(
                                 format!("Imported file not found: {filepath}"),
                                 "import declaration",
                             ))?;
+                        source_code.insert(file_id, input.clone());
                         let subprogram = parse_program_helper(filepath.as_str(), input.as_str(), ctx)?;
                         functions.extend(subprogram.functions);
                         function_locations.extend(subprogram.function_locations);
-                        files.extend(subprogram.files);
+                        source_code.extend(subprogram.source_code);
+                        filepaths.extend(subprogram.filepaths);
                     }
                 }
                 Rule::function => {
@@ -87,7 +92,8 @@ impl Parse<Program> for ProgramParser {
                 functions,
                 const_arrays: ctx.const_arrays.clone(),
                 function_locations,
-                files,
+                filepaths,
+                source_code
             }
         )
     }
@@ -138,12 +144,13 @@ fn parse_program_helper(filepath: &str, input: &str, ctx: &mut ParseContext) -> 
 
     // Parse into semantic structures
     ctx.current_filepath = filepath.to_string();
+    ctx.current_source_code = input.to_string();
     ctx.imported_filepaths.insert(filepath.to_string());
     ProgramParser.parse(program_pair, ctx)
 }
 
 pub fn parse_program(filepath: &str, input: &str) -> Result<Program, ParseError> {
-    let mut ctx = ParseContext::new(filepath);
+    let mut ctx = ParseContext::new(filepath, input);
     ctx.imported_filepaths.insert(filepath.to_string());
     parse_program_helper(filepath, input, &mut ctx)
 }

@@ -29,6 +29,10 @@ pub struct ParseContext {
     pub trash_var_count: usize,
     /// Filepath of the file we are currently parsing
     pub current_filepath: String,
+    /// Source code of the file we are currently parsing
+    pub current_source_code: String,
+    /// File ID of the file we are currently parsing
+    pub current_file_id: FileId,
     /// Absolute filepaths imported so far (also includes the root filepath)
     pub imported_filepaths: BTreeSet<String>,
     /// Next unused file ID
@@ -36,14 +40,16 @@ pub struct ParseContext {
 }
 
 impl ParseContext {
-    pub fn new(current_filepath: &str) -> Self {
+    pub fn new(current_filepath: &str, current_source_code: &str) -> Self {
         Self {
             constants: BTreeMap::new(),
             const_arrays: BTreeMap::new(),
             trash_var_count: 0,
             current_filepath: current_filepath.to_string(),
+            current_file_id: 0,
             imported_filepaths: BTreeSet::new(),
-            next_file_id: 0,
+            current_source_code: current_source_code.to_string(),
+            next_file_id: 1,
         }
     }
 
@@ -99,7 +105,7 @@ impl ParseContext {
 
 impl Default for ParseContext {
     fn default() -> Self {
-        Self::new("<string>")
+        Self::new("<string>", "")
     }
 }
 

@@ -13,9 +13,9 @@ pub struct Bytecode {
     pub hints: BTreeMap<CodeAddress, Vec<Hint>>, // pc -> hints
     pub starting_frame_memory: usize,
     // debug
-    pub program: String,
     pub function_locations: BTreeMap<SourceLocation, FunctionName>,
-    pub files: BTreeMap<FileId, String>,
+    pub filepaths: BTreeMap<FileId, String>,
+    pub source_code: BTreeMap<FileId, String>,
 }
 
 impl Display for Bytecode {
