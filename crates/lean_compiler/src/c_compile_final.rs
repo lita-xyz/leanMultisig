@@ -46,7 +46,8 @@ pub fn compile_to_low_level_bytecode(
         }],
     );
 
-    let starting_frame_memory = *intermediate_bytecode.memory_size_per_function.get("main").unwrap();
+    let starting_frame_memory = *intermediate_bytecode.memory_size_per_function.get("main")
+        .expect("Missing main function");
 
     let mut hints = BTreeMap::new();
     let mut label_to_pc = BTreeMap::new();
