@@ -337,7 +337,9 @@ impl Display for Hint {
             Self::Inverse { arg, res_offset } => {
                 write!(f, "m[fp + {res_offset}] = inverse({arg})")
             }
-            Self::LocationReport { location: SourceLocation { file_id, line_number } } => {
+            Self::LocationReport {
+                location: SourceLocation { file_id, line_number },
+            } => {
                 // TODO: make a pretty-print method which shows the filepath instead of file_id
                 write!(f, "source location: {file_id}:{line_number}")
             }

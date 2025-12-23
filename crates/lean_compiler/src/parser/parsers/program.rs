@@ -4,9 +4,9 @@ use crate::{
     lang::{Program, SourceLocation},
     parser::{
         error::{ParseError, ParseResult, SemanticError},
-        grammar::{ParsePair, parse_source, Rule},
-        parsers::{Parse, ParseContext, ParsedConstant, next_inner_pair},
+        grammar::{ParsePair, Rule, parse_source},
         lexer,
+        parsers::{Parse, ParseContext, ParsedConstant, next_inner_pair},
     },
 };
 use std::collections::BTreeMap;
@@ -55,11 +55,12 @@ impl Parse<Program> for ProgramParser {
                         let file_id = ctx.get_next_file_id();
                         ctx.current_file_id = file_id;
                         filepaths.insert(file_id, filepath.clone());
-                        let input = std::fs::read_to_string(filepath.clone())
-                            .map_err(|_| SemanticError::with_context(
+                        let input = std::fs::read_to_string(filepath.clone()).map_err(|_| {
+                            SemanticError::with_context(
                                 format!("Imported file not found: {filepath}"),
                                 "import declaration",
-                            ))?;
+                            )
+                        })?;
                         source_code.insert(file_id, input.clone());
                         let subprogram = parse_program_helper(filepath.as_str(), input.as_str(), ctx)?;
                         functions.extend(subprogram.functions);
@@ -93,15 +94,13 @@ impl Parse<Program> for ProgramParser {
             }
         }
 
-        Ok(
-            Program {
-                functions,
-                const_arrays: ctx.const_arrays.clone(),
-                function_locations,
-                filepaths,
-                source_code
-            }
-        )
+        Ok(Program {
+            functions,
+            const_arrays: ctx.const_arrays.clone(),
+            function_locations,
+            filepaths,
+            source_code,
+        })
     }
 }
 
@@ -120,23 +119,21 @@ impl Parse<String> for ImportStatementParser {
                     match item.as_rule() {
                         Rule::filepath_character => {
                             filepath.push_str(item.as_str());
-                        },
+                        }
                         _ => {
                             return Err(SemanticError::with_context(
-                                format!("Expected a filepath character, got: {}",
-                                    item.as_str()),
+                                format!("Expected a filepath character, got: {}", item.as_str()),
                                 "filepath character",
-                            ).into());
+                            )
+                            .into());
                         }
                     }
                 }
                 Ok(filepath)
-            },
-            _ => Err(SemanticError::with_context(
-                format!("Expected a filepath, got: {}", item.as_str()),
-                "filepath"
-            )
-            .into()),
+            }
+            _ => Err(
+                SemanticError::with_context(format!("Expected a filepath, got: {}", item.as_str()), "filepath").into(),
+            ),
         }
     }
 }
@@ -160,4 +157,3 @@ pub fn parse_program(filepath: &str, input: &str) -> Result<Program, ParseError>
     ctx.imported_filepaths.insert(filepath.to_string());
     parse_program_helper(filepath, input, &mut ctx)
 }
-

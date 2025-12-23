@@ -1,8 +1,8 @@
+use crate::lang::FileId;
 use crate::parser::{
     error::{ParseResult, SemanticError},
     grammar::{ParsePair, Rule},
 };
-use crate::lang::FileId;
 use std::collections::{BTreeMap, BTreeSet};
 
 pub mod expression;

@@ -1,6 +1,6 @@
+use derive_more::Display;
 use p3_koala_bear::{KoalaBear, QuinticExtensionFieldKB};
 use std::cmp::Ordering;
-use derive_more::Display;
 
 /// Base field type for VM operations
 pub type F = KoalaBear;
@@ -36,8 +36,7 @@ impl PartialOrd for SourceLocation {
         match self.file_id.cmp(&other.file_id) {
             Ordering::Less => Some(Ordering::Less),
             Ordering::Greater => Some(Ordering::Greater),
-            Ordering::Equal =>
-                Some(self.line_number.cmp(&other.line_number))
+            Ordering::Equal => Some(self.line_number.cmp(&other.line_number)),
         }
     }
 }

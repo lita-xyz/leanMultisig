@@ -1,16 +1,15 @@
 //! VM execution runner
 
 use crate::core::{
-    DIMENSION, F, NONRESERVED_PROGRAM_INPUT_START, ONE_VEC_PTR, POSEIDON_16_NULL_HASH_PTR, POSEIDON_24_NULL_HASH_PTR,
-    VECTOR_LEN, ZERO_VEC_PTR, FileId,
+    DIMENSION, F, FileId, NONRESERVED_PROGRAM_INPUT_START, ONE_VEC_PTR, POSEIDON_16_NULL_HASH_PTR,
+    POSEIDON_24_NULL_HASH_PTR, VECTOR_LEN, ZERO_VEC_PTR,
 };
 use crate::diagnostics::{ExecutionResult, MemoryProfile, RunnerError, memory_profiling_report};
 use crate::execution::{ExecutionHistory, Memory};
 use crate::isa::Bytecode;
 use crate::isa::instruction::InstructionContext;
 use crate::{
-    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLocation, Table,
-    TableTrace,
+    ALL_TABLES, CodeAddress, ENDING_PC, HintExecutionContext, N_TABLES, STARTING_PC, SourceLocation, Table, TableTrace,
 };
 use multilinear_toolkit::prelude::*;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};

@@ -946,7 +946,10 @@ fn simplify_lines(
                 // Create recursive function body
                 let recursive_func = create_recursive_function(
                     func_name.clone(),
-                    SourceLocation { line_number: *line_number, file_id },
+                    SourceLocation {
+                        line_number: *line_number,
+                        file_id,
+                    },
                     func_args,
                     iterator.clone(),
                     end_simplified,
@@ -1134,7 +1137,7 @@ fn simplify_lines(
                     location: SourceLocation {
                         line_number: *location,
                         file_id,
-                    }
+                    },
                 });
             }
         }
@@ -2265,8 +2268,20 @@ fn handle_const_arguments_helper(
                 else_branch,
                 ..
             } => {
-                changed |= handle_const_arguments_helper(file_id, then_branch, constant_functions, new_functions, const_arrays);
-                changed |= handle_const_arguments_helper(file_id, else_branch, constant_functions, new_functions, const_arrays);
+                changed |= handle_const_arguments_helper(
+                    file_id,
+                    then_branch,
+                    constant_functions,
+                    new_functions,
+                    const_arrays,
+                );
+                changed |= handle_const_arguments_helper(
+                    file_id,
+                    else_branch,
+                    constant_functions,
+                    new_functions,
+                    const_arrays,
+                );
             }
             Line::ForLoop { body, unroll: _, .. } => {
                 // TODO we should unroll before const arguments handling
@@ -2274,7 +2289,8 @@ fn handle_const_arguments_helper(
             }
             Line::Match { arms, .. } => {
                 for (_, arm) in arms {
-                    changed |= handle_const_arguments_helper(file_id, arm, constant_functions, new_functions, const_arrays);
+                    changed |=
+                        handle_const_arguments_helper(file_id, arm, constant_functions, new_functions, const_arrays);
                 }
             }
             _ => {}

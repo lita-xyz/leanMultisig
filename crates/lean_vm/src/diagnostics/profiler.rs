@@ -3,7 +3,7 @@ use std::ops::Range;
 
 use utils::pretty_integer;
 
-use crate::core::{SourceLocation, Label, MemoryAddress};
+use crate::core::{Label, MemoryAddress, SourceLocation};
 use crate::stack_trace::find_function_for_location;
 use crate::{ExecutionHistory, NONRESERVED_PROGRAM_INPUT_START};
 

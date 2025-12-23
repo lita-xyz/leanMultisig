@@ -6,7 +6,7 @@ use std::fmt::{Display, Formatter};
 use utils::ToUsize;
 
 use crate::{F, ir::HighLevelOperation};
-pub use lean_vm::{FunctionName, FileId, SourceLocation};
+pub use lean_vm::{FileId, FunctionName, SourceLocation};
 
 #[derive(Debug, Clone)]
 pub struct Program {
