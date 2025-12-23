@@ -921,7 +921,82 @@ fn test_undefined_import() {
 }
 
 #[test]
-fn test_import() {
+#[should_panic]
+fn test_imported_function_name_clash() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
+    let program = r#"
+    import "bar.snark";
+    import "foo.snark";
+
+    fn bar() {
+        return;
+    }
+
+    fn main() {
+        return;
+    }
+    "#;
+    compile_and_run(self_path.as_str(), program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
+
+#[test]
+#[should_panic]
+fn test_imported_constant_name_clash() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
+    let program = r#"
+    import "bar.snark";
+    import "foo.snark";
+
+    const FOO = 5;
+
+    fn main() {
+        return;
+    }
+    "#;
+    compile_and_run(self_path.as_str(), program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
+
+#[test]
+fn test_double_import_tolerance() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
+    let program = r#"
+    import "foo.snark";
+    import "foo.snark";
+
+    fn main() {
+        return;
+    }
+    "#;
+    compile_and_run(self_path.as_str(), program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
+
+#[test]
+fn test_circular_import_tolerance() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
+    let program = r#"
+    import "circular_import.snark";
+
+    fn main() {
+        return;
+    }
+    "#;
+    compile_and_run(self_path.as_str(), program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
+
+#[test]
+#[should_panic]
+fn test_no_main() {
+    let program = r#"
+    "#;
+    compile_and_run("<string>", program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
+
+#[test]
+fn test_imports() {
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
     let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
     let program = r#"
