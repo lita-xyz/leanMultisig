@@ -906,3 +906,16 @@ fn test_const_fibonacci() {
     "#;
     compile_and_run("<string>", program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
 }
+
+#[test]
+#[should_panic]
+fn test_undefined_import() {
+    let program = r#"
+    import "asdfasdfadsfasdf.snark";
+
+    fn main() {
+        return;
+    }
+    "#;
+    compile_and_run("<string>", program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
