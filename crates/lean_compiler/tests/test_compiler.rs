@@ -919,3 +919,20 @@ fn test_undefined_import() {
     "#;
     compile_and_run("<string>", program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
 }
+
+#[test]
+fn test_import() {
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let self_path = format!("{manifest_dir}/tests/test_compiler.rs");
+    let program = r#"
+    import "bar.snark";
+    import "foo.snark";
+
+    fn main() {
+        x = bar(FOO);
+        assert x == 6;
+        return;
+    }
+    "#;
+    compile_and_run(self_path.as_str(), program.to_string(), (&[], &[]), DEFAULT_NO_VEC_RUNTIME_MEMORY, false);
+}
