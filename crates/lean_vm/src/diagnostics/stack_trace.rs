@@ -158,7 +158,7 @@ pub(crate) fn find_function_for_location(
         .range(..=location)
         .next_back()
         .map(|(location, func_name)| (*location, func_name.clone()))
-        .expect(format!("Did not find function for location: {location}").as_str())
+        .unwrap_or_else(|| panic!("Did not find function for location: {location}"))
 }
 
 fn count_remaining_lines_in_function(

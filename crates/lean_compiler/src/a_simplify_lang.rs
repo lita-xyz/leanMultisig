@@ -1177,10 +1177,7 @@ fn simplify_expr(
                         );
                     }
                 }
-                panic!(
-                    "Const array '{}' can only be accessed with compile-time constant indices",
-                    array_var
-                );
+                panic!("Const array '{array_var}' can only be accessed with compile-time constant indices",);
             }
 
             if let SimpleExpr::Var(array_var) = array
@@ -2600,7 +2597,7 @@ impl SimpleLine {
             Self::Panic => "panic".to_string(),
             Self::LocationReport { .. } => Default::default(),
             Self::DebugAssert(bool, _) => {
-                format!("debug_assert({})", bool)
+                format!("debug_assert({bool})")
             }
         };
         format!("{spaces}{line_str}")

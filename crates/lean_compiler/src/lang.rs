@@ -374,8 +374,8 @@ pub enum AssignmentTarget {
 impl Display for AssignmentTarget {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Var(var) => write!(f, "{}", var),
-            Self::ArrayAccess { array, index } => write!(f, "{}[{}]", array, index),
+            Self::Var(var) => write!(f, "{var}"),
+            Self::ArrayAccess { array, index } => write!(f, "{array}[{index}]"),
         }
     }
 }
@@ -505,7 +505,7 @@ impl Display for Expression {
             }
             Self::MathExpr(math_expr, args) => {
                 let args_str = args.iter().map(|arg| format!("{arg}")).collect::<Vec<_>>().join(", ");
-                write!(f, "{}({})", math_expr, args_str)
+                write!(f, "{math_expr}({args_str})")
             }
         }
     }
@@ -719,7 +719,7 @@ impl Display for ConstExpression {
             }
             Self::MathExpr(math_expr, args) => {
                 let args_str = args.iter().map(|arg| format!("{arg}")).collect::<Vec<_>>().join(", ");
-                write!(f, "{}({})", math_expr, args_str)
+                write!(f, "{math_expr}({args_str})")
             }
         }
     }

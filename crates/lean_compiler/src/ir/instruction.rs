@@ -220,7 +220,7 @@ impl Display for IntermediateInstruction {
             }
             Self::LocationReport { .. } => Ok(()),
             Self::DebugAssert(boolean_expr, _) => {
-                write!(f, "debug_assert {}", boolean_expr)
+                write!(f, "debug_assert {boolean_expr}")
             }
         }
     }

@@ -24,19 +24,29 @@ pub type FunctionName = String;
 pub type FileId = usize;
 
 /// Location in source code
-#[derive(Display, Hash, PartialEq, Eq, Ord, Debug, Clone, Copy)]
+#[derive(Display, Hash, PartialEq, Eq, Debug, Clone, Copy)]
 #[display("{}:{}", file_id, line_number)]
 pub struct SourceLocation {
     pub file_id: FileId,
     pub line_number: SourceLineNumber,
 }
 
+fn cmp_source_location(a: &SourceLocation, b: &SourceLocation) -> Ordering {
+    match a.file_id.cmp(&b.file_id) {
+        Ordering::Less => Ordering::Less,
+        Ordering::Greater => Ordering::Greater,
+        Ordering::Equal => a.line_number.cmp(&b.line_number),
+    }
+}
+
 impl PartialOrd for SourceLocation {
     fn partial_cmp(&self, other: &SourceLocation) -> Option<Ordering> {
-        match self.file_id.cmp(&other.file_id) {
-            Ordering::Less => Some(Ordering::Less),
-            Ordering::Greater => Some(Ordering::Greater),
-            Ordering::Equal => Some(self.line_number.cmp(&other.line_number)),
-        }
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for SourceLocation {
+    fn cmp(&self, other: &SourceLocation) -> Ordering {
+        cmp_source_location(self, other)
     }
 }
